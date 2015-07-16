@@ -18,7 +18,7 @@ install_load <- function (package1, ...)  {
   } 
 }
 
-setwd("~/KRAD")
+
 install_load("scales")
 install_load("shiny")
 install_load("ReporteRs")
@@ -225,5 +225,5 @@ FN<-function(x) {
   as.numeric(as.character(x))
 }
 sac <- new ("YChartsApiClient", api_key="NWh0HNOObqf20CO3boO8NQ") # Enter the Key here. See http://ycharts.com/accounts/my_account
-
+setwd("~/KRAD")
 
