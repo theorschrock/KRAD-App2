@@ -18,7 +18,7 @@ install_load <- function (package1, ...)  {
   } 
 }
 
-
+setwd("~/KRAD")
 install_load("scales")
 install_load("shiny")
 install_load("ReporteRs")
