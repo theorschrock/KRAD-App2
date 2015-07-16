@@ -12,7 +12,7 @@ install_load <- function (package1, ...)  {
     
     # if package is not installed locally, download, then load
     else {
-      install.packages(package)
+      install.packages(package,repos="http://cran.rstudio.com/")
       do.call("library", list(package))
     }
   } 
