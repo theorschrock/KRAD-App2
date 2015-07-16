@@ -286,9 +286,10 @@ shinyServer(function(input,output,session) {
   observe({
     if(input$generateReport==0)return()
     isolate({
+      tmpWD<-getwd()
       setwd("~/KRAD")
       writeDoc( doc, file = paste(input$company,"FinProfile",".docx",sep=""))
-      
+      setwd(tmpWD)
     })
     
   })
@@ -1039,8 +1040,10 @@ shinyServer(function(input,output,session) {
         doc<-addParagraph(doc,value=as.character(titleR[i,Ts]),stylename="Heading3")
         doc<-addParagraph(doc,value=as.character(link[i,Ts]),stylename="BodyText")
       }
+      tmpWD<-getwd()
       setwd("~/KRAD")
       writeDoc( doc, file = paste("Potential Savings-",input$orgName,".docx",sep=""))
+      setwd(tmpWD)
     })
   })
   
@@ -1168,9 +1171,10 @@ shinyServer(function(input,output,session) {
     mydoc <- addParagraph( mydoc, value =pay  ,stylename="StyleRed", bookmark = "Pay" )
     mydoc <- addParagraph( mydoc, value =play  ,stylename="StyleRed", bookmark = "Play" )
     mydoc <- addParagraph( mydoc, value =text3  ,stylename="BT2", bookmark = "Third" )
+    tmpWD<-getwd()
     setwd("~/KRAD")
     writeDoc( mydoc,  paste(input$ACAorgName,"ACA Executive Brief",".docx",sep="") )
-    
+    setwd(tmpWD)
     
   })
 
