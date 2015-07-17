@@ -1177,5 +1177,9 @@ shinyServer(function(input,output,session) {
     setwd(tmpWD)
     
   })
-
+  session$onSessionEnded(function() { 
+    stopApp()
+    q("no") 
+  })
+  
 })
