@@ -138,7 +138,7 @@ shinyServer(function(input,output,session) {
     Ycharts[,V2:=FN(V2)]
     metric<-trim(str_replace_all(str_replace_all(str_replace_all(input$metricA,"_"," "),"ttm",""),"annual",""))
     
-    Intro<-paste("Analyzing at the last ",input$years," years, ",sep="")
+    Intro<-paste(sample(c("Analyzing","Comparing","Over the course of"),size=1), " the last ",input$years," years, ",sep="")
     cStats<-Ycharts[Company==input$company]
     maxDate<-as.character(cStats[which.max(V2),V1])
     
