@@ -1177,6 +1177,86 @@ shinyServer(function(input,output,session) {
     setwd(tmpWD)
     
   })
+  
+  observe({
+    input$companType
+    if(input$companType=="Publically Traded") {
+      output$hmtlOut<-renderUI({
+        
+        list(p("-Annual Reports (10k)"),
+             p("-Quarterly Reports (10Q)"),
+             p("-Investor Presentation"),
+             p("-News/Press Release"),
+             br(),
+             p("Most of the information above can be found on 
+               the company's ",strong("investor relations page.")),
+             br(),
+             p(strong("Additional Sources")),
+             br(),
+             p("-",a("Stock Reports",href="https://www.fidelity.com/"),
+               ": Stock Reports can be found on ",
+               a("Fidelity.com",href="https://www.fidelity.com/"),
+               ". Generally the best stock report they offer is ", 
+               strong("Zacks Investment Research.")," *You will need to open a free 
+               brokerage account with Fidelity to access these reports."),
+             p("- ",a("Justia Dockets",href="https://dockets.justia.com/"),
+               ": Use this source to search for labor litigation"))
+        
+      })
+    }
+    if(input$companType=="Privately Held") {
+      output$hmtlOut<-renderUI({
+        
+        list(p("-About us"),
+             p("-Mission, Goals, Values"),
+             p("-Company History"),
+             p("-Locations"),
+             br(),
+             p("Most of the information above can be found on 
+               the company's ",strong("website.")),
+             br(),
+             p(strong("Additional Sources")),
+             br(),
+             p("-",a("Hoovers.com",href="http.www.hoovers.com/")),
+             p("- ",a("Justia Dockets",href="https://dockets.justia.com/"),": Use this source to search for labor litigation"))
+        
+      })
+    }
+    if(input$companType=="City and State Government") {
+      output$hmtlOut<-renderUI({
+        list(p("-Comprehensive Annual Financial Reports"),
+             p("-Budget Documents"),
+             p("Capital Improvement Plans"),
+             p("-Open Data Portals"),
+             p("-Audit Reports"),
+             p("- ",a("Justia Dockets",href="https://dockets.justia.com/"),": Use this source to search for labor litigation"),
+             br(),
+             p("Most of the information above can be found on 
+               the organization's ",strong("website.")))
+      })
+      }
+    if(input$companType=="Higher Education and K-12") {
+      output$hmtlOut<-renderUI({
+        list(p("-Comprehensive Annual Financial Reports"),
+             p("-Budget Documents"),
+             p("Capital Improvement Plans"),
+             p("-Open Data Portals"),
+             p("-Audit Reports"),
+             br(),
+             p("Most of the information above can be found on 
+               the organization's ",strong("website.")),
+             br(),
+             p(strong("Additional Sources")),
+             br(),
+             p("- ",a("Justia Dockets",href="https://dockets.justia.com/"),": Use this source to search for labor litigation"),
+             p("- ",a("IPEDS Data Center",href="https://nces.ed.gov/ipeds/datacenter/"),
+               ":Use this source for statistics on all universities and public schools.
+               Information provided includes employment statistics and financials"))
+        
+      })
+    }
+    })
+  
   session$onSessionEnded(function() { 
     stopApp()
     q("no") 

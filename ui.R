@@ -9,6 +9,42 @@ source("source.R")
 
 shinyUI(
   navbarPage("KRAD",
+             tabPanel("Organizational Profile",
+                      tabsetPanel(type = "tabs",
+                                  tabPanel("Sources",
+                                           sidebarLayout(position="right",
+                                                         sidebarPanel(
+                                                           p("Company websites are where you will 
+                                                             retrieve the majority of information 
+                                                             while creating an organizational profile. 
+                                                             If the company is publically traded, the 
+                                                             amount of information that will be 
+                                                             available on these sites is usually very 
+                                                             comprehensive. A good place to start your 
+                                                             research for a publically traded company 
+                                                             is in its annual reports or investor 
+                                                             presentations. If the company is privately
+                                                             held, information will be limited, but 
+                                                             even basic information found on their 
+                                                             website can be beneficial to a Kronos 
+                                                             sales rep."),
+                                                           br(),
+                                                           p("While doing research on a public sector account, the most useful information comes from CAFR reports and Budget Documents. Sometimes you will be able to find summaries of these documents, which usually pulls out the most pertinent information."),
+                                                           br(),
+                                                           p("Hoovers is a good place to find supplemental information for your research. Here you can easily find employment numbers, competitors, basic financials, and industry info."),
+                                                           br(),
+                                                           p("Standard Google searches and Google News will help you find a company’s recent activity. It is also a great way to find out if an organization has ever been involved in labor litigation.")
+                                                           ),
+                                                         mainPanel(
+                                                           selectInput(inputId="companType",label=h3("Company Type"), 
+                                                                       choices=c("Publically Traded",
+                                                                                 "Privately Held",
+                                                                                 "City and State Government",
+                                                                                 "Higher Education and K-12"),
+                                                                       selected="Publically Traded"),
+                                                           uiOutput("hmtlOut")
+                                                         )
+                                                         )))),
              tabPanel("Prospecting Brief",
                       
                       # Sidebar with a slider input for number of bins
