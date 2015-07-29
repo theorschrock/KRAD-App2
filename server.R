@@ -1193,13 +1193,13 @@ shinyServer(function(input,output,session) {
              br(),
              p(strong("Additional Sources")),
              br(),
-             p("-",a("Stock Reports",href="https://www.fidelity.com/"),
+             p("-",a("Stock Reports",href="https://www.fidelity.com/",target="_blank"),
                ": Stock Reports can be found on ",
-               a("Fidelity.com",href="https://www.fidelity.com/"),
+               a("Fidelity.com",href="https://www.fidelity.com/",target="_blank"),
                ". Generally the best stock report they offer is ", 
                strong("Zacks Investment Research.")," *You will need to open a free 
                brokerage account with Fidelity to access these reports."),
-             p("- ",a("Justia Dockets",href="https://dockets.justia.com/"),
+             p("- ",a("Justia Dockets",href="https://dockets.justia.com/",target="_blank"),
                ": Use this source to search for labor litigation"))
         
       })
@@ -1217,8 +1217,8 @@ shinyServer(function(input,output,session) {
              br(),
              p(strong("Additional Sources")),
              br(),
-             p("-",a("Hoovers.com",href="http.www.hoovers.com/")),
-             p("- ",a("Justia Dockets",href="https://dockets.justia.com/"),": Use this source to search for labor litigation"))
+             p("-",a("Hoovers.com",href="http.www.hoovers.com/",target="_blank")),
+             p("- ",a("Justia Dockets",href="https://dockets.justia.com/",target="_blank"),": Use this source to search for labor litigation"))
         
       })
     }
@@ -1229,7 +1229,7 @@ shinyServer(function(input,output,session) {
              p("Capital Improvement Plans"),
              p("-Open Data Portals"),
              p("-Audit Reports"),
-             p("- ",a("Justia Dockets",href="https://dockets.justia.com/"),": Use this source to search for labor litigation"),
+             p("- ",a("Justia Dockets",href="https://dockets.justia.com/",target="_blank"),": Use this source to search for labor litigation"),
              br(),
              p("Most of the information above can be found on 
                the organization's ",strong("website.")))
@@ -1248,8 +1248,8 @@ shinyServer(function(input,output,session) {
              br(),
              p(strong("Additional Sources")),
              br(),
-             p("- ",a("Justia Dockets",href="https://dockets.justia.com/"),": Use this source to search for labor litigation"),
-             p("- ",a("IPEDS Data Center",href="https://nces.ed.gov/ipeds/datacenter/"),
+             p("- ",a("Justia Dockets",href="https://dockets.justia.com/",target="_blank"),": Use this source to search for labor litigation"),
+             p("- ",a("IPEDS Data Center",href="https://nces.ed.gov/ipeds/datacenter/",target="_blank"),
                ":Use this source for statistics on all universities and public schools.
                Information provided includes employment statistics and financials"))
         
