@@ -6,6 +6,37 @@ F
 #
 
 source("source.R")
+sd<-data.table(read.csv("History.csv",header=T,sep=","))
+BarChart<-function(data,x,y,position="stack",fill=NULL,splitG=NULL,xlab,ylab,title){
+  fillPal<-c("#659ec7","#ffcba4","#990012","#657383","#3868a6","#b3c3ff","#bfb6bd","#12362f","#cfd6ea","#beffc7")
+  positionText<-switch(position,
+                       "stack"=quote(position_stack()),
+                       "dodge"=quote(position_dodge(width=1)))
+  
+  update_geom_defaults("bar",   list(fill = "#659ec7"))
+  fill1 <- deparse(substitute(fill))
+  if(fill1=="NULL")fill1<-eval(NULL)
+  splitG1 <- deparse(substitute(splitG))
+  if(splitG1=="NULL") splitG1<-eval(NULL)
+  
+  x1 <- deparse(substitute(x))
+  y<-substitute(y)
+  x<-substitute(x)
+  fill<-substitute(fill)
+  print(fill)
+  data1<-data[,sum(round(eval(y),0)),by=c(x1,splitG1,fill1)]
+  print(data1)
+  print(y)
+  ggplot(data1,aes_q(x,y,fill=fill,label=y))+geom_bar(stat="identity",position = position)+theme_hc()+
+    theme( axis.line = element_line(colour = "grey", 
+                                    size = 1,lineend = 30, linetype = "solid"),
+           axis.title=element_text(color="#657383",size=9),
+           panel.grid=element_blank(),
+           title=element_text(color="#657383"))+
+    labs(x=toupper(xlab),y=toupper(ylab))+ggtitle(toupper(title))+
+    geom_text(vjust=1,size=4,color="white",position=eval(positionText))+scale_fill_manual(values=fillPal)
+  
+}
 
 shinyServer(function(input,output,session) {
   
@@ -1200,7 +1231,9 @@ shinyServer(function(input,output,session) {
                strong("Zacks Investment Research.")," *You will need to open a free 
                brokerage account with Fidelity to access these reports."),
              p("- ",a("Justia Dockets",href="https://dockets.justia.com/",target="_blank"),
-               ": Use this source to search for labor litigation"))
+               ": Use this source to search for labor litigation"),
+             p("- ",a("GlassDoor",href="http://www.glassdoor.com/Reviews/index.htm",target="_blank"),
+               ": Use this source to search for employee reviews that reveal potential labor management issues"))
         
       })
     }
@@ -1218,7 +1251,9 @@ shinyServer(function(input,output,session) {
              p(strong("Additional Sources")),
              br(),
              p("-",a("Hoovers.com",href="http.www.hoovers.com/",target="_blank")),
-             p("- ",a("Justia Dockets",href="https://dockets.justia.com/",target="_blank"),": Use this source to search for labor litigation"))
+             p("- ",a("Justia Dockets",href="https://dockets.justia.com/",target="_blank"),": Use this source to search for labor litigation"),
+             p("- ",a("GlassDoor",href="http://www.glassdoor.com/Reviews/index.htm",target="_blank"),
+               ": Use this source to search for employee reviews that reveal potential labor management issues"))
         
       })
     }
@@ -1230,6 +1265,9 @@ shinyServer(function(input,output,session) {
              p("-Open Data Portals"),
              p("-Audit Reports"),
              p("- ",a("Justia Dockets",href="https://dockets.justia.com/",target="_blank"),": Use this source to search for labor litigation"),
+             ,
+             p("- ",a("GlassDoor",href="http://www.glassdoor.com/Reviews/index.htm",target="_blank"),
+               ": Use this source to search for employee reviews that reveal potential labor management issues"),
              br(),
              p("Most of the information above can be found on 
                the organization's ",strong("website.")))
@@ -1251,12 +1289,81 @@ shinyServer(function(input,output,session) {
              p("- ",a("Justia Dockets",href="https://dockets.justia.com/",target="_blank"),": Use this source to search for labor litigation"),
              p("- ",a("IPEDS Data Center",href="https://nces.ed.gov/ipeds/datacenter/",target="_blank"),
                ":Use this source for statistics on all universities and public schools.
-               Information provided includes employment statistics and financials"))
+               Information provided includes employment statistics and financials"),
+             p("- ",a("GlassDoor",href="http://www.glassdoor.com/Reviews/index.htm",target="_blank"),
+               ": Use this source to search for employee reviews that reveal potential labor management issues"))
         
       })
     }
     })
+
+  StatsData<-reactive({
+    input$statsyear
+    sd[,Request.Date:=as.Date(Request.Date,format="%m/%d/%Y")]
+    sd[Status=="Completed with KRAD Survey",Status:="Completed"]
+    sd[,OrgP:=ifelse(grepl("Org",Requested.Information),1,0)]
+    sd[,FinP:=ifelse(grepl("Fin",Requested.Information),1,0)]
+    sd[,ExeP:=ifelse(grepl("Exe",Requested.Information),1,0)]
+    sd[,IndP:=ifelse(grepl("Ind",Requested.Information),1,0)]
+    sd[,PB.P:=ifelse(grepl("Prospect",Requested.Information),1,0)]
+    sd[,ACA.P:=ifelse(grepl("ACA",Requested.Information),1,0)]
+    sd[,TotalP:=OrgP+FinP+ExeP+IndP+PB.P+ACA.P]
+    
+    sd[,Month:=month(Request.Date)]
+    sd[,Year:=year(Request.Date)]
+    sd[,Quarter:=ifelse(Month%in%10:12,"Q1",
+                        ifelse(Month%in%1:3,"Q2",
+                               ifelse(Month%in%4:6,"Q3","Q4")))]
+    sd[Vertical=="manufacturing",Vertical:="Manufacturing"]
+    sd[Vertical%in% c("","Pre-Sales","Global","Cross-Vertical"),Vertical:="Other"]
+    sd$Rep.s.Name<-gsub('[[:digit:]]+', '', sd$Rep.s.Name)
+    sd$Rep.s.Name<-gsub(";","",sd$Rep.s.Name)
+    sd$Rep.s.Name<-gsub("#","",sd$Rep.s.Name)
+    sd[,Year:=ifelse(Quarter=="Q1",Year+1,Year)]
+    sd[,QYear:=paste(Year,Quarter)]
+    
+  })
   
+  output$stats<-renderPlot({
+    sd<-na.omit(StatsData()[,sum(TotalP),by=c("Year","Quarter","Vertical")])
+    
+    Remaining<-1/(1-as.numeric(as.Date(paste(year(Sys.Date()),"-10-01",sep=""))-Sys.Date())/365)
+    sd[,Status:="Completed"]
+    Proj<-data.table(Year=year(Sys.Date()),V1=sum(sd[Year==max(sd$Year)]$V1)*Remaining-sum(sd[Year==max(sd$Year)]$V1),Quarter="Q4",Status="Projected",Vertical="")
+    sd<-rbind(sd,Proj)
+    setkeyv(sd,c("Year","Quarter","Vertical"))
+    BarChart(sd,x=Year,y=V1,fill=Status,position="stack",xlab="year",ylab="profile",title="Profiles by Year")
+  })
+  output$statsYear<-renderPlot({
+    sd<-na.omit(StatsData()[,sum(TotalP),by=c("Year","Quarter","Vertical")])
+    Remaining<-1/(1-as.numeric(as.Date(paste(year(Sys.Date()),"-10-01",sep=""))-Sys.Date())/365)
+    sd[,Status:="Completed"]
+    Proj<-data.table(Year=year(Sys.Date()),V1=sum(sd[Year==max(sd$Year)]$V1)*Remaining-sum(sd[Year==max(sd$Year)]$V1),Quarter="Q4",Status="Projected",Vertical="")
+    sd<-rbind(sd,Proj)
+    setkeyv(sd,c("Year","Quarter","Vertical"))
+    sd<-sd[Year%in%input$statsyear]
+    BarChart(sd,x=Quarter,y=V1,fill=Status,position="stack",xlab="quarter",ylab="profile",title=paste("Profiles by Quarter in",input$statsyear))
+  })  
+  output$statsVertical<-renderPlot({
+    sd<-na.omit(StatsData()[,sum(TotalP),by=c("Year","Quarter","Vertical")])
+    Remaining<-1/(1-as.numeric(as.Date(paste(year(Sys.Date()),"-10-01",sep=""))-Sys.Date())/365)
+    sd[,Status:="Completed"]
+    Proj<-data.table(Year=year(Sys.Date()),V1=sum(sd[Year==max(sd$Year)]$V1)*Remaining-sum(sd[Year==max(sd$Year)]$V1),Quarter="Q4",Status="Projected",Vertical="")
+    sd<-rbind(sd,Proj)
+    setkeyv(sd,c("Year","Quarter","Vertical"))
+    sd<-sd[Year%in%input$statsyear&Status=="Completed"]
+    BarChart(sd,x=Vertical,y=V1,position="stack",xlab="quarter",ylab="profile",title=paste("Profiles by Vertical in",input$statsyear))
+  })
+  output$statsRep<-renderPlot({
+    sd<-na.omit(StatsData()[,sum(TotalP),by=c("Year","Rep.s.Name")])
+    
+    setkeyv(sd,c("Year","Rep.s.Name"))
+    sd<-sd[Year%in%input$statsyear]
+    sd<-sd[rev(order(sd$V1))]
+    sd<-sd[1:10]
+    BarChart(sd,x=Rep.s.Name,y=V1,position="stack",xlab="Sales rep",ylab="profiles",title=paste("Profiles by Rep in",input$statsyear))
+  })  
+    
   session$onSessionEnded(function() { 
     stopApp()
     q("no") 

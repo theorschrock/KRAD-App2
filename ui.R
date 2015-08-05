@@ -9,6 +9,59 @@ source("source.R")
 
 shinyUI(
   navbarPage("KRAD",
+             tabPanel("Home",icon=icon("home"),
+                      fluidRow(
+                        column(1),
+                        column(1,
+                               tags$a(icon("dashboard", "fa-5x"),
+                                      href="https://studio.kronos.com/presales/krad/KRAD%20Queue/Forms/AllItems.aspx",
+                                      target="_blank")
+                        ),
+                        column(4,
+                               h3("VISIT THE K-RAD QUEUE"),
+                               h5("VPN connection required")
+                        ),
+                        column(1,
+                               tags$a(icon("file-text", "fa-5x"),
+                                      href="CreateNewProfile.dotx")
+                        ),
+                        column(4,
+                               h3("CREATE NEW PROFILE")
+                        )
+                      ),
+                      hr(),
+                      tabsetPanel(tabPanel("FEATURED PROFILE",icon=icon("star"),
+                                           sidebarLayout(position="right",
+                                                         sidebarPanel(p(h4("Every week a profile is selected that
+                                                                         stands out  based quality of content,
+                                                                         readability, formatting, and overall document flow. This weeks featured
+                                                                         profile was completed by Daniel Lee on Driver Pipeline.")),
+                                                                      br(),
+                                                                      p(h4("Daniel has included very relevent content and has provided
+                                                                        linkage to Kronos Critical Business Issues.  Great job Daniel!"))),
+                                                         mainPanel(
+                                                           tags$iframe(src="FeaturedProfile.pdf", width="100%", height="600")
+                                                         )
+                                                         )),
+                                  tabPanel("KRAD STATS",icon=icon("bar-chart"),
+                                           fluidRow(column(3,
+                                                           selectInput("statsyear","Year",c(2015,2014,2013,2012,2011))
+                                           ),
+                                           column(3,
+                                                  selectInput("statsQr","Quarter",c("Q1","Q2","Q3","Q4"))
+                                           )),
+                                           hr(),
+                                           fluidRow(column(6,
+                                                           plotOutput("stats"),
+                                                           plotOutput("statsYear")
+                                           ),
+                                           column(6,
+                                                  plotOutput("statsVertical"),
+                                                  plotOutput("statsRep")
+                                           )
+                                           )
+                                  )
+                      )),
              tabPanel("Organizational Profile",
                       tabsetPanel(type = "tabs",
                                   tabPanel("Sources",
@@ -36,7 +89,7 @@ shinyUI(
                                                            p("Standard Google searches and Google News will help you find a company’s recent activity. It is also a great way to find out if an organization has ever been involved in labor litigation.")
                                                            ),
                                                          mainPanel(
-                                                           selectInput(inputId="companType",label=h3("Company Type"), 
+                                                           selectInput(inputId="companType",label=h3("Company Type *Please check all listed sources"), 
                                                                        choices=c("Publically Traded",
                                                                                  "Privately Held",
                                                                                  "City and State Government",
