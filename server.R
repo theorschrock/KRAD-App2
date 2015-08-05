@@ -1264,15 +1264,16 @@ shinyServer(function(input,output,session) {
              p("Capital Improvement Plans"),
              p("-Open Data Portals"),
              p("-Audit Reports"),
-             p("- ",a("Justia Dockets",href="https://dockets.justia.com/",target="_blank"),": Use this source to search for labor litigation"),
-             ,
+             p("Most of the information above can be found on 
+               the organization's ",strong("website.")),
+             br(),
+             p("-",a("Hoovers.com",href="http.www.hoovers.com/")),
              p("- ",a("GlassDoor",href="http://www.glassdoor.com/Reviews/index.htm",target="_blank"),
                ": Use this source to search for employee reviews that reveal potential labor management issues"),
-             br(),
-             p("Most of the information above can be found on 
-               the organization's ",strong("website.")))
+             p("- ",a("Justia Dockets",href="https://dockets.justia.com/"),": Use this source to search for labor litigation")
+             )
       })
-      }
+    }
     if(input$companType=="Higher Education and K-12") {
       output$hmtlOut<-renderUI({
         list(p("-Comprehensive Annual Financial Reports"),
