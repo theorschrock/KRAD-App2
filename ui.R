@@ -35,10 +35,11 @@ shinyUI(
                                                          sidebarPanel(p(h4("Every week a profile is selected that
                                                                          stands out  based quality of content,
                                                                          readability, formatting, and overall document flow. This weeks featured
-                                                                         profile was completed by Daniel Lee on Driver Pipeline.")),
+                                                                         profile was completed by Emory Smith.")),
                                                                       br(),
-                                                                      p(h4("Daniel has included very relevent content and has provided
-                                                                        linkage to Kronos Critical Business Issues.  Great job Daniel!"))),
+                                                                      p(h4("This profile was selected based on outstanding content and linkage to Kronos CBIs.  Emory also presented information found from additional sources including great information regarding recent labor lawsuits involving Atria from Justia.com.
+                                                                           Great work Emory!
+                                                                           "))),
                                                          mainPanel(
                                                            tags$iframe(src="FeaturedProfile.pdf", width="100%", height="600")
                                                          )
