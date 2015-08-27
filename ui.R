@@ -35,10 +35,9 @@ shinyUI(
                                                          sidebarPanel(p(h4("Every week a profile is selected that
                                                                          stands out  based quality of content,
                                                                          readability, formatting, and overall document flow. This weeks featured
-                                                                         profile was completed by Emory Smith.")),
+                                                                         profile was completed on Ennis Inc by Daniel Lee.")),
                                                                       br(),
-                                                                      p(h4("This profile was selected based on outstanding content and linkage to Kronos CBIs.  Emory also presented information found from additional sources including great information regarding recent labor lawsuits involving Atria from Justia.com.
-                                                                           Great work Emory!
+                                                                      p(h4("This profile was selected based on outstanding formating and identification of key risks linkage to Kronos CBIs. Daniel also used glassdoor employee reviews to identify additional potential labor management issues such as high employee turnover and low employee moral. Nice work Daniel!
                                                                            "))),
                                                          mainPanel(
                                                            tags$iframe(src="FeaturedProfile.pdf", width="100%", height="600")
