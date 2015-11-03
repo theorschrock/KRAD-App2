@@ -224,6 +224,6 @@ setMethod("get_company_data_timeseries", "YChartsApiClient",
 FN<-function(x) {
   as.numeric(as.character(x))
 }
-sac <- new ("YChartsApiClient", api_key="NWh0HNOObqf20CO3boO8NQ") # Enter the Key here. See http://ycharts.com/accounts/my_account
+sac <- new ("YChartsApiClient", api_key="sd3ifktDA-37L61cZ6mPDQ") # Enter the Key here. See http://ycharts.com/accounts/my_account
 
 
