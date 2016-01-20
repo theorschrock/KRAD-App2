@@ -32,6 +32,7 @@ install_load("RCurl")
 install_load("rjson")
 testimontials<-data.table(read.csv("PBpublicSectorTestimonials.csv",header=T,sep=","))
 references<-data.table(read.csv("PBreferences.csv",header=T,sep=","))
+featuredProfileText<-data.frame(read.csv("FeaturedProfileText.csv"))
 Dollar<-function(x,r){
   paste("$",format(round(x,r),big.mark=",",scientific=F),sep="")
 }

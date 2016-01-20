@@ -1,9 +1,5 @@
 
-# This is the user-interface definition of a Shiny web application.
-# You can find out more about building applications with Shiny here:
-#
-# http://shiny.rstudio.com
-#
+# This is the user-interface definition of a Shiny
 
 source("source.R")
 
@@ -37,8 +33,7 @@ shinyUI(
                                                                          readability, formatting, and overall document flow. This weeks featured
                                                                          profile was completed on Ennis Inc by Daniel Lee.")),
                                                                       br(),
-                                                                      p(h4("This profile was selected based on outstanding formating and identification of key risks linkage to Kronos CBIs. Daniel also used glassdoor employee reviews to identify additional potential labor management issues such as high employee turnover and low employee moral. Nice work Daniel!
-                                                                           "))),
+                                                                      p(h4(featuredProfileText$Detail[1]))),
                                                          mainPanel(
                                                            tags$iframe(src="FeaturedProfile.pdf", width="100%", height="600")
                                                          )
