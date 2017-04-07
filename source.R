@@ -1,35 +1,17 @@
-install_load <- function (package1, ...)  {   
-  
-  # convert arguments to vector
-  packages <- c(package1, ...)
-  
-  # start loop to determine if each package is installed
-  for(package in packages){
-    
-    # if package is installed locally, load
-    if(package %in% rownames(installed.packages()))
-      do.call('library', list(package))
-    
-    # if package is not installed locally, download, then load
-    else {
-      install.packages(package,repos="http://cran.rstudio.com/")
-      do.call("library", list(package))
-    }
-  } 
-}
 
 
-install_load("scales")
-install_load("shiny")
-install_load("ReporteRs")
-install_load("data.table")
-install_load("stringr")
-install_load("ggplot2")
-install_load("ggthemes")
-install_load("gridExtra")
-install_load("reshape2")
-install_load("RCurl")
-install_load("rjson")
+
+library("scales")
+library("shiny")
+library("ReporteRs")
+library("data.table")
+library("stringr")
+library("ggplot2")
+library("ggthemes")
+library("gridExtra")
+library("reshape2")
+library("RCurl")
+library("rjson")
 testimontials<-data.table(read.csv("PBpublicSectorTestimonials.csv",header=T,sep=","))
 references<-data.table(read.csv("PBreferences.csv",header=T,sep=","))
 featuredProfileText<-data.frame(read.csv("FeaturedProfileText.csv"))
